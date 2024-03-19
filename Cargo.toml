@@ -20,7 +20,8 @@ default = []
 libudev = ["serialport/libudev"]
 
 [dependencies.mio]
-version = "0.8"
+git = "https://github.com/DerAndereJohannes/mio.git"
+branch = "issue#1582_named_pipe_set_buffer_size"
 features = ["os-poll", "os-ext"]
 
 [dependencies.serialport]
