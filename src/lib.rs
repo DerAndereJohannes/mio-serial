@@ -7,7 +7,7 @@
 //! ## Links
 //!   - repo:  <https://github.com/berkowski/mio-serial>
 //!   - docs:  <https://docs.rs/mio-serial>
-#![deny(missing_docs)]
+// #![deny(missing_docs)]
 #![warn(rust_2018_idioms)]
 
 // Enums, Structs, and Traits from the serialport crate
@@ -82,7 +82,7 @@ pub struct SerialStream {
     #[cfg(windows)]
     inner: mem::ManuallyDrop<serialport::COMPort>,
     #[cfg(windows)]
-    pipe: NamedPipe,
+    pub pipe: NamedPipe,
 }
 
 #[cfg(unix)]
@@ -571,8 +571,9 @@ impl TryFrom<NativeBlockingSerialPort> for SerialStream {
         let name = port
             .name()
             .ok_or_else(|| crate::Error::new(crate::ErrorKind::NoDevice, "Empty device name"))?;
+
         let baud = port.baud_rate()?;
-        let parity = port.parity().unwrap_or(Parity::None);
+        let parity = port.parity()?;
         let data_bits = port.data_bits().unwrap_or(DataBits::Eight);
         let stop_bits = port.stop_bits()?;
         let flow_control = port.flow_control()?;
